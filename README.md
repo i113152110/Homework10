@@ -1,6 +1,4 @@
-> **第十週作業（HW10：LLM Wiki → 教學簡報）請看 [`HW10_REPORT.md`](HW10_REPORT.md)。** 以下是 HW3 的原始說明，HW3 的檔案都保留。
-
-# AIASE2026-HW3 — U.S. Consumer Staples & Retail Financial Reports RAG
+ U.S. Consumer Staples & Retail Financial Reports RAG
 
 ## 1. 專案簡介
 
