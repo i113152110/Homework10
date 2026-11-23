@@ -1,0 +1,182 @@
+{
+  "KHC_10K_FY2025_SEC.pdf": {
+    "sha256": "de4d502d6ced6d0ab6f844f1d9c4db5d0988d7e91b1806fe00a8712ff2764416",
+    "processed_file": "KHC_10K_FY2025_SEC.txt",
+    "num_chunks": 488,
+    "doc_type": "10-K",
+    "doc_family": "annual_report",
+    "period": "FY2025",
+    "embedding_indexed": false
+  },
+  "KHC_Transcript_Q2_2025_InsiderMonkey.pdf": {
+    "sha256": "94c9fc9a382f840350a61d7d3186ab321b696e446fe9acd49e8808d1584e792c",
+    "processed_file": "KHC_Transcript_Q2_2025_InsiderMonkey.txt",
+    "num_chunks": 24,
+    "doc_type": "Transcript",
+    "doc_family": "earnings_call",
+    "period": "Q2_2025",
+    "embedding_indexed": false
+  },
+  "KHC_Transcript_Q3_2025_SeekingAlpha.pdf": {
+    "sha256": "4482b6cf9ae2df3d27e209f7d1aca0b6ccf39f04593fe4c4b822dcdf7422d922",
+    "processed_file": "KHC_Transcript_Q3_2025_SeekingAlpha.txt",
+    "num_chunks": 31,
+    "doc_type": "Transcript",
+    "doc_family": "earnings_call",
+    "period": "Q3_2025",
+    "embedding_indexed": false
+  },
+  "KHC_Transcript_Q4_2025_MotleyFool.pdf": {
+    "sha256": "bed4e125445769559230386479a20bcc03e81c348071fb50c9b5678df8c9e8de",
+    "processed_file": "KHC_Transcript_Q4_2025_MotleyFool.txt",
+    "num_chunks": 30,
+    "doc_type": "Transcript",
+    "doc_family": "earnings_call",
+    "period": "Q4_2025",
+    "embedding_indexed": false
+  },
+  "KMB_10K_FY2025_SEC.pdf": {
+    "sha256": "3d0162fa530da0a05d5465f7b182704acc92ec76c0a738029cc3e0a49c5a4b45",
+    "processed_file": "KMB_10K_FY2025_SEC.txt",
+    "num_chunks": 442,
+    "doc_type": "10-K",
+    "doc_family": "annual_report",
+    "period": "FY2025",
+    "embedding_indexed": false
+  },
+  "KMB_Transcript_Q2_2025_MotleyFool.pdf": {
+    "sha256": "953b64b99c646eb6af36e8528dbdc3bd200bdb94a8a70ef6661d6ef73aeb328b",
+    "processed_file": "KMB_Transcript_Q2_2025_MotleyFool.txt",
+    "num_chunks": 28,
+    "doc_type": "Transcript",
+    "doc_family": "earnings_call",
+    "period": "Q2_2025",
+    "embedding_indexed": false
+  },
+  "KMB_Transcript_Q3_2025_MotleyFool.pdf": {
+    "sha256": "b22fe2fe31d1337c687de27929566b3719b2810e8f150dd38863cdb7e19c99bd",
+    "processed_file": "KMB_Transcript_Q3_2025_MotleyFool.txt",
+    "num_chunks": 33,
+    "doc_type": "Transcript",
+    "doc_family": "earnings_call",
+    "period": "Q3_2025",
+    "embedding_indexed": false
+  },
+  "KMB_Transcript_Q4_2025_MotleyFool.pdf": {
+    "sha256": "1ffe68491e9470099cb99b3e25d9cbae259c1c7187f1fa40a5b59d6a13592c5f",
+    "processed_file": "KMB_Transcript_Q4_2025_MotleyFool.txt",
+    "num_chunks": 41,
+    "doc_type": "Transcript",
+    "doc_family": "earnings_call",
+    "period": "Q4_2025",
+    "embedding_indexed": false
+  },
+  "KO_10K_FY2025_SEC.pdf": {
+    "sha256": "4018aa24a29ff52320f3d94b00eb292bb977b6401aaa7a2fa864462214990dca",
+    "processed_file": "KO_10K_FY2025_SEC.txt",
+    "num_chunks": 708,
+    "doc_type": "10-K",
+    "doc_family": "annual_report",
+    "period": "FY2025",
+    "embedding_indexed": false
+  },
+  "KO_Transcript_Q2_2025_FactSet.pdf": {
+    "sha256": "c1eb612163404ac3f0ef9f6d870b0f9619112528a1f93171f1c7b0f2c294afa3",
+    "processed_file": "KO_Transcript_Q2_2025_FactSet.txt",
+    "num_chunks": 56,
+    "doc_type": "Transcript",
+    "doc_family": "earnings_call",
+    "period": "Q2_2025",
+    "embedding_indexed": false
+  },
+  "KO_Transcript_Q3_2025_FactSet.pdf": {
+    "sha256": "24b5382bc2e2912e56de15b1dd63b8e914f7e604810859e1453ff0be55b6da32",
+    "processed_file": "KO_Transcript_Q3_2025_FactSet.txt",
+    "num_chunks": 62,
+    "doc_type": "Transcript",
+    "doc_family": "earnings_call",
+    "period": "Q3_2025",
+    "embedding_indexed": false
+  },
+  "KO_Transcript_Q4_2025_FactSet.pdf": {
+    "sha256": "2fb8b01873aa64423acc11551bf3f59127946f45030fb127ff3a1216ae81f762",
+    "processed_file": "KO_Transcript_Q4_2025_FactSet.txt",
+    "num_chunks": 58,
+    "doc_type": "Transcript",
+    "doc_family": "earnings_call",
+    "period": "Q4_2025",
+    "embedding_indexed": false
+  },
+  "PG_10K_FY2025_SEC.pdf": {
+    "sha256": "088e5173c56e76c51def36de0605963c2647866a1dbb880dcaf0b3c019033a8b",
+    "processed_file": "PG_10K_FY2025_SEC.txt",
+    "num_chunks": 463,
+    "doc_type": "10-K",
+    "doc_family": "annual_report",
+    "period": "FY2025",
+    "embedding_indexed": false
+  },
+  "PG_Transcript_Q2_FY2026_MotleyFool.pdf": {
+    "sha256": "2321892bd6a2bcf8ac982fed5654df50170a99bea5626ee2fae63b547fee8b91",
+    "processed_file": "PG_Transcript_Q2_FY2026_MotleyFool.txt",
+    "num_chunks": 70,
+    "doc_type": "Transcript",
+    "doc_family": "earnings_call",
+    "period": "Q2_FY2026",
+    "embedding_indexed": false
+  },
+  "PG_Transcript_Q3_FY2025_StockInsights.pdf": {
+    "sha256": "572582a5555519d0b102a86704b892dafba56e105d71e0aba608ca3ad1aa9357",
+    "processed_file": "PG_Transcript_Q3_FY2025_StockInsights.txt",
+    "num_chunks": 3,
+    "doc_type": "Transcript",
+    "doc_family": "earnings_call",
+    "period": "Q3_FY2025",
+    "embedding_indexed": false
+  },
+  "PG_Transcript_Q4_FY2025_StockInsights.pdf": {
+    "sha256": "8c81534bcfe211435d8f743577c54544e06516708328e9c06a677884f994fe6f",
+    "processed_file": "PG_Transcript_Q4_FY2025_StockInsights.txt",
+    "num_chunks": 3,
+    "doc_type": "Transcript",
+    "doc_family": "earnings_call",
+    "period": "Q4_FY2025",
+    "embedding_indexed": false
+  },
+  "WMT_10K_FY2026_SEC.pdf": {
+    "sha256": "594b35478872dc12423bcbbb88afbaebd4be2471ad0fc273bb213edec3e83f5f",
+    "processed_file": "WMT_10K_FY2026_SEC.txt",
+    "num_chunks": 701,
+    "doc_type": "10-K",
+    "doc_family": "annual_report",
+    "period": "FY2026",
+    "embedding_indexed": false
+  },
+  "WMT_Transcript_Q2_FY2026_FactSet.pdf": {
+    "sha256": "f7b155322dd1d7a33a69c1e44908cdf8908dac17fed3406528b2f8ca7d9221a5",
+    "processed_file": "WMT_Transcript_Q2_FY2026_FactSet.txt",
+    "num_chunks": 70,
+    "doc_type": "Transcript",
+    "doc_family": "earnings_call",
+    "period": "Q2_FY2026",
+    "embedding_indexed": false
+  },
+  "WMT_Transcript_Q3_FY2026_FactSet.pdf": {
+    "sha256": "47ecc14db9d47cc4a9698c3d5d71dc7cb69b3d85904088177a901960343ecf12",
+    "processed_file": "WMT_Transcript_Q3_FY2026_FactSet.txt",
+    "num_chunks": 70,
+    "doc_type": "Transcript",
+    "doc_family": "earnings_call",
+    "period": "Q3_FY2026",
+    "embedding_indexed": false
+  },
+  "WMT_Transcript_Q4_FY2026_FactSet.pdf": {
+    "sha256": "c9aa38de784bc2a529bb41efea8b80b90a18e4b9ec8eaf5bfe90ef3ef630d608",
+    "processed_file": "WMT_Transcript_Q4_FY2026_FactSet.txt",
+    "num_chunks": 65,
+    "doc_type": "Transcript",
+    "doc_family": "earnings_call",
+    "period": "Q4_FY2026",
+    "embedding_indexed": false
+  }
+}

@@ -1,0 +1,37 @@
+# 最終完整執行  2026-11-23 21:30:47
+
+$ python wiki_pipeline.py check --label final-run
+
+======================================================================
+sources=10  pages={'concepts': 10, 'entities': 5, 'sources': 10}
+evidence verified: 201/201   numbers checked: 174   calc verified: 12
+errors=0 {}   warnings=0 {}
+RESULT: PASS ✅
+
+$ python wiki_pipeline.py slides --label final-run
+======================================================================
+slides=22  numbers traced=72/72  quotes verified=9/9  retrieval ok=16/16
+errors=0 warnings=0
+RESULT: PASS ✅  → slides/index.html（54 KB），耗時 0.4s
+
+$ python check_render.py final-run
+放大倍率：s02×1.35 s03×1.35 s04×1.35 s05×1.35 s06×1.22 s07×1.35 s08×1.29 s09×1.16 s10×1.21 s11×1.35 s12×1.15 s13×1.35 s14×1.32 s15×1.08 s16×1.2 s17×1.31 s18×1.35
+============================================================
+slides=22 errors=0 cjk_font=True
+RESULT: PASS ✅
+
+$ python wiki_query.py "KO Q4 的 price/mix 為什麼只有 1%"
+問題：KO Q4 的 price/mix 為什麼只有 1%
+頁面排名：sources/ko-q4-2025(33.7)、sources/kmb-q4-2025(14.9)、concepts/price(12.8)、concepts/value-and-affordability(10.1)、sources/pg-q2-fy2026(10.1)
+
+[16.849] sources/ko-q4-2025 L15
+  **一句話**：CEO 交接前的最後一場法說會；財務長把成長拆成「銷量」與「price/mix」，CEO 在 Q&A 裡示範為什麼不能只看單季的 price/mix。
+
+[14.887] sources/kmb-q4-2025 L15
+  **一句話**：KMB 只強調「volume + mix」，並在 Q&A 回答分析師「price/mix 為什麼在減速」——這是理解「mix 變差不一定是壞事」的好材料。
+
+[10.366] sources/ko-q4-2025 L20
+  - Q4 的 price/mix 只有 1%：約 4 點來自漲價，被 3 點不利的組合抵銷。  <!--calc: 4-3=1-->
+  原文：Our price/mix growth of 1% was primarily driven by approximately 4 points of pricing actions, offset by 3 points of unfavorable mix
+
+[10.061] concepts/value-and-affordability L13

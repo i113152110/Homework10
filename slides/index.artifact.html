@@ -1,0 +1,276 @@
+<title>Volume Price Mix 教學簡報</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+:root{
+  --bg:#EDF1EF; --paper:#FFFFFF; --ink:#14201D; --muted:#566763; --line:#D3DCD9; --soft:#E4EEEB;
+  --accent:#0A6B5C; --accent-ink:#FFFFFF;
+  --vol:#2563C9; --vol-bg:#E3EBFA; --price:#B06E08; --price-bg:#F7E9CF; --mix:#9B3A8A; --mix-bg:#F2DFEE;
+  --neu-bg:#EEF2F1; --tot-bg:#D8EEE8; --neg:#B3402F; --fic:#5B3FA6; --fic-bg:#EEE8FA;
+  --shadow:0 1px 2px rgba(20,32,29,.08),0 10px 30px rgba(20,32,29,.10);
+  --display:"Space Grotesk","Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  --body:"Noto Sans TC","PingFang TC","Microsoft JhengHei","Noto Sans CJK TC",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0B1210; --paper:#141D1A; --ink:#E7EFEC; --muted:#9FB2AC; --line:#26342F; --soft:#1B2A25;
+  --accent:#4FD1B8; --accent-ink:#06201A;
+  --vol:#7BA9FF; --vol-bg:#16253F; --price:#E8B04A; --price-bg:#3A2D12; --mix:#E293D3; --mix-bg:#3A1E35;
+  --neu-bg:#1A2623; --tot-bg:#143A33; --neg:#FF9684; --fic:#B9A4F5; --fic-bg:#2A2144;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.45); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0B1210; --paper:#141D1A; --ink:#E7EFEC; --muted:#9FB2AC; --line:#26342F; --soft:#1B2A25;
+  --accent:#4FD1B8; --accent-ink:#06201A;
+  --vol:#7BA9FF; --vol-bg:#16253F; --price:#E8B04A; --price-bg:#3A2D12; --mix:#E293D3; --mix-bg:#3A1E35;
+  --neu-bg:#1A2623; --tot-bg:#143A33; --neg:#FF9684; --fic:#B9A4F5; --fic-bg:#2A2144;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.45); color-scheme:dark}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);-webkit-font-smoothing:antialiased;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));overflow-x:hidden}
+code{font-family:var(--mono);font-size:.82em;background:var(--soft);padding:.08em .4em;border-radius:4px}
+.viewer{height:100%;display:flex;flex-direction:column;gap:10px;padding-block:12px}
+.stagewrap{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
+.sizer{position:relative}
+.stage{width:1280px;height:720px;position:absolute;left:0;top:0;transform-origin:0 0}
+.slide{position:absolute;inset:0;background:var(--paper);border-radius:14px;box-shadow:var(--shadow);display:none;flex-direction:column;
+  padding:44px 64px 26px;overflow:hidden;border:1px solid var(--line)}
+.slide.active{display:flex}
+.slide header{margin-bottom:22px}
+.kicker{font:600 15px/1 var(--display);letter-spacing:.08em;color:var(--accent);text-transform:uppercase}
+.slide h2{margin:10px 0 0;font:700 38px/1.22 var(--body);letter-spacing:-.005em;text-wrap:balance}
+.sbody{flex:1;min-height:0;font-size:23px;line-height:1.55}
+.sfit{display:flex;flex-direction:column;gap:18px}
+.slide footer{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:12px;padding-top:10px;border-top:1px solid var(--line);
+  font-size:13px;color:var(--muted)}
+.slide footer .src{display:flex;flex-wrap:wrap;gap:6px;align-items:center;min-width:0}
+.slide footer .pg{font:600 14px var(--display);white-space:nowrap}
+.txt{margin:0}
+.callout{background:var(--soft);border-left:5px solid var(--accent);padding:14px 20px;border-radius:0 10px 10px 0;font-size:21px}
+.fiction{background:var(--fic-bg);border:2px dashed var(--fic);border-radius:12px;padding:14px 20px;position:relative}
+.fiction p{margin:0;font-size:22px}
+.badge{display:inline-block;font:700 13px/1 var(--body);color:var(--fic);border:1.5px solid var(--fic);border-radius:999px;padding:4px 10px;margin-bottom:8px;letter-spacing:.04em}
+.bl,.ol{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:8px}
+.ol{counter-reset:s;list-style:none;padding-left:0;gap:16px}
+.ol li{counter-increment:s;display:grid;grid-template-columns:44px 1fr;align-items:start;gap:14px;font-size:25px;line-height:1.45}
+.ol .ot{min-width:0}
+.ol li::before{content:counter(s);font:700 22px/44px var(--display);background:var(--accent);color:var(--accent-ink);width:44px;height:44px;border-radius:50%;text-align:center}
+.flow{display:flex;flex-direction:column;gap:6px;align-items:stretch}
+.fnode{background:var(--neu-bg);border:1px solid var(--line);border-radius:10px;padding:10px 16px;font-size:20px}
+.farrow{text-align:center;color:var(--muted);line-height:1;font-size:20px}
+.cards{display:grid;gap:18px}
+.cards.n2{grid-template-columns:repeat(2,1fr)}.cards.n3{grid-template-columns:repeat(3,1fr)}.cards.n4{grid-template-columns:repeat(2,1fr)}
+.card{border-radius:14px;padding:18px 22px;border:1px solid var(--line);background:var(--neu-bg);min-width:0}
+.card h3{margin:0 0 8px;font:700 24px/1.2 var(--body)}
+.card p{margin:0;font-size:21px;line-height:1.5}
+.card.c-vol{background:var(--vol-bg);border-color:transparent}.card.c-vol h3{color:var(--vol)}
+.card.c-price{background:var(--price-bg);border-color:transparent}.card.c-price h3{color:var(--price)}
+.card.c-mix{background:var(--mix-bg);border-color:transparent}.card.c-mix h3{color:var(--mix)}
+.stats{display:grid;gap:18px}.stats.n2{grid-template-columns:repeat(2,1fr)}.stats.n3{grid-template-columns:repeat(3,1fr)}
+.stat{border-radius:14px;padding:16px 22px;background:var(--neu-bg)}
+.stat .v{font:700 54px/1.05 var(--display);letter-spacing:-.02em}
+.stat .l{font-size:19px;color:var(--muted);margin-top:4px}
+.stat.c-vol{background:var(--vol-bg)}.stat.c-vol .v{color:var(--vol)}
+.stat.c-price{background:var(--price-bg)}.stat.c-price .v{color:var(--price)}
+.stat.c-mix{background:var(--mix-bg)}.stat.c-mix .v{color:var(--mix)}
+.stat.c-total{background:var(--tot-bg)}.stat.c-total .v{color:var(--accent)}
+.quote{margin:0;border:1px solid var(--line);border-radius:12px;padding:14px 20px;background:var(--paper)}
+.quote blockquote{margin:0;font:italic 400 18px/1.5 Georgia,"Times New Roman",serif;color:var(--ink)}
+.quote figcaption{margin-top:8px;font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.quote .ok{color:var(--accent);font-weight:600}
+.eqwrap{display:flex;flex-direction:column;gap:6px}
+.eqlabel{font:600 15px var(--body);color:var(--muted);letter-spacing:.02em}
+.eq{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.op{font:600 30px var(--display);color:var(--muted)}
+.chip{display:inline-flex;flex-direction:column;align-items:center;min-width:92px;padding:8px 16px;border-radius:12px;background:var(--neu-bg);border:1px solid var(--line)}
+.chip .et{font-size:18px;font-weight:600}
+.chip .ev{font:700 28px/1.15 var(--display)}
+.chip.c-vol{background:var(--vol-bg);border-color:transparent;color:var(--vol)}
+.chip.c-price{background:var(--price-bg);border-color:transparent;color:var(--price)}
+.chip.c-mix{background:var(--mix-bg);border-color:transparent;color:var(--mix)}
+.chip.c-total{background:var(--tot-bg);border-color:transparent;color:var(--accent)}
+.chip.c-neutral{color:var(--ink)}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:start}
+.col{display:flex;flex-direction:column;gap:16px;min-width:0}
+.tblwrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:21px}
+th{text-align:left;font:600 16px var(--body);color:var(--muted);letter-spacing:.04em;padding:8px 14px;border-bottom:2px solid var(--line)}
+td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+td.num{font-family:var(--display);font-weight:700;text-align:right}
+table.src{font-size:16px}table.src td{padding:7px 12px}td.fn{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.wfwrap{display:flex;flex-direction:column;gap:2px}
+.wft{font:600 16px var(--body);color:var(--muted)}
+.wf{width:100%;height:auto;max-height:330px}
+.wf .axis{stroke:var(--muted);stroke-width:1.2}.wf .conn{stroke:var(--muted);stroke-width:1;stroke-dasharray:4 4}
+.wf .wv{font:700 22px var(--display);fill:var(--ink)}.wf .wl{font:600 16px var(--body);fill:var(--muted)}
+.stackbar{display:flex;flex-direction:column;gap:6px}
+.sbt{font:600 16px var(--body);color:var(--muted)}.sbl{font:700 26px var(--display)}
+.sbbar{display:flex;height:54px;border-radius:10px;overflow:hidden;border:1px solid var(--line)}
+.seg{display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;padding:0 6px;text-align:center}
+.seg.hatch{background:repeating-linear-gradient(45deg,var(--vol-bg),var(--vol-bg) 8px,var(--paper) 8px,var(--paper) 14px);color:var(--vol)}
+.seg.rest{background:var(--neu-bg);color:var(--muted)}
+.quiz{display:flex;flex-direction:column;gap:14px}
+.quizq{border:1px solid var(--line);border-radius:12px;padding:12px 18px}
+.qt{font-weight:700;font-size:21px;margin-bottom:8px}
+.opts{display:flex;flex-wrap:wrap;gap:10px}
+.opt{font:500 18px var(--body);padding:8px 16px;border-radius:999px;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer}
+.opt:hover{border-color:var(--accent)}
+.opt.right{background:var(--tot-bg);border-color:var(--accent);color:var(--accent);font-weight:700}
+.opt.wrong{border-color:var(--neg);color:var(--neg)}
+.why{margin-top:8px;font-size:17px;color:var(--muted)}
+.method svg{width:100%;height:auto;max-height:440px}
+.method .nd rect{stroke-width:2}
+.method .nd.w rect{fill:var(--neu-bg);stroke:var(--line)}.method .nd.a rect{fill:var(--vol-bg);stroke:var(--vol)}.method .nd.c rect{fill:var(--tot-bg);stroke:var(--accent)}
+.method .nt{font:700 22px var(--body);fill:var(--ink);text-anchor:middle}.method .ns{font:500 16px var(--body);fill:var(--muted);text-anchor:middle}
+.method .ln path{fill:none;stroke:var(--ink);stroke-width:2}.method .ln.bad path{stroke:var(--neg)}
+.method .lb{font:600 15px var(--body);fill:var(--neg);paint-order:stroke;stroke:var(--paper);stroke-width:7px;stroke-linejoin:round}.method .ls{font:500 14px var(--body);fill:var(--muted)}
+.method .lw{fill:var(--neu-bg);stroke:var(--line)}.method .la{fill:var(--vol-bg);stroke:var(--vol)}.method .lc{fill:var(--tot-bg);stroke:var(--accent)}
+.mapping{display:grid;grid-template-columns:repeat(3,1fr);gap:6px 26px}
+.mcol{display:flex;flex-direction:column;gap:6px}
+.mrow{display:grid;grid-template-columns:26px 1fr;grid-template-areas:"n t" "n p";gap:0 8px;padding:5px 0;border-bottom:1px solid var(--line);font-size:13px;line-height:1.35}
+.mn{grid-area:n;font:700 14px var(--display);color:var(--accent)}.mt{grid-area:t;font-weight:700;font-size:14px}
+.mp{grid-area:p;font-size:12px}.co{color:var(--muted)}.dim{color:var(--muted)}
+.note{margin:6px 0 0;font-size:15px;color:var(--muted)}
+.title{justify-content:center;gap:22px;background:linear-gradient(135deg,var(--tot-bg),var(--paper) 62%)}
+.title .big{font:700 84px/1.08 var(--body);letter-spacing:-.02em;margin:0}
+.title .sub{font:700 40px var(--display);display:flex;gap:16px;align-items:center;margin:0}
+.title .sub span:nth-child(1){color:var(--vol)}.title .sub span:nth-child(3){color:var(--price)}.title .sub span:nth-child(5){color:var(--mix)}
+.title .sub i{color:var(--muted);font-style:normal}
+.title .lead{font-size:28px;margin:0;max-width:820px;line-height:1.5}
+.title .meta{font-size:16px;color:var(--muted);margin:0}
+.controls{display:flex;align-items:center;gap:12px;justify-content:center;color:var(--muted);font-size:14px}
+.controls button{font:600 15px var(--body);padding:8px 18px;border-radius:999px;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer}
+.controls button:hover{border-color:var(--accent)}
+.controls button:focus-visible,.opt:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.bar{flex:1;max-width:360px;height:6px;border-radius:99px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .25s}
+.hint{font-size:13px}
+/* 閱讀模式：窄螢幕改成由上往下捲動 */
+.viewer.reading{height:auto;padding-block:16px}
+.reading .stagewrap{display:block}
+.reading .sizer{width:auto!important;height:auto!important}
+.reading .stage{position:static;width:auto;height:auto;transform:none!important;display:flex;flex-direction:column;gap:16px}
+.reading .slide{position:static;display:flex;padding:22px 18px 14px;border-radius:12px;overflow:visible}
+.reading .slide h2{font-size:24px}.reading .sbody{font-size:16px}.reading .callout{font-size:15px}
+.reading .ol li{font-size:17px;grid-template-columns:34px 1fr}.reading .ol li::before{width:34px;height:34px;line-height:34px;font-size:17px}
+.reading .cards.n2,.reading .cards.n3,.reading .cards.n4,.reading .stats.n2,.reading .stats.n3,.reading .split,.reading .mapping{grid-template-columns:1fr}
+.reading .card p,.reading .fiction p,.reading table{font-size:15px}.reading .card h3{font-size:18px}
+.reading .stat .v{font-size:34px}.reading .stat .l{font-size:14px}
+.reading .quote blockquote{font-size:14px}.reading .chip{min-width:70px;padding:6px 10px}.reading .chip .ev{font-size:20px}.reading .chip .et{font-size:14px}
+.reading .title .big{font-size:42px}.reading .title .sub{font-size:24px;flex-wrap:wrap}.reading .title .lead{font-size:18px}
+.reading .controls{display:none}.reading .opt{font-size:15px}.reading .qt{font-size:16px}
+.reading .slide footer{font-size:11px;flex-wrap:wrap}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+@media print{.controls{display:none}.slide{display:flex!important;position:static;page-break-after:always;box-shadow:none}.stage{position:static;transform:none!important;width:auto;height:auto}.sizer{width:auto!important;height:auto!important}}
+</style>
+<div class="viewer"><div class="stagewrap"><div class="sizer"><div class="stage">
+<section class="slide title" id="s01" data-n="1"><h1 class="big">看懂公司怎麼成長</h1><p class="sub"><span>Volume</span><i>·</i><span>Price</span><i>·</i><span>Mix</span></p><p class="lead">用五家美國消費品公司的真實財報，學會把「營收成長」拆開來看</p><p class="meta">資料來源：LLM Wiki，10 份來源、201 條逐字引文，全部通過程式比對</p></section>
+<section class="slide" id="s02" data-n="2"><header><div class="kicker">開始之前</div><h2>學完這份簡報，你可以…</h2></header><div class="sbody"><div class="sfit"><ol class="ol"><li><span class="ot">用白話說出 <strong>Volume（銷量）、Price（價格）、Mix（組合）</strong> 各是什麼</span></li><li><span class="ot">看懂一個成長數字，是「賣得更多」、「賣得更貴」，還是「賣的東西變了」</span></li><li><span class="ot">認出財報裡最常見的三個陷阱：<strong>單季雜訊、各家報法不同、mix 的雙重意思</strong></span></li></ol><div class="callout">每一頁底部都標著這頁的資料出自 Wiki 的哪一頁。Wiki 裡的每個數字都附英文原文，並由程式逐句比對過。</div></div></div><footer><span class="src">本頁是概念整理，沒有引用數字</span><span class="pg">2 / 22</span></footer></section>
+<section class="slide" id="s03" data-n="3"><header><div class="kicker">先問一個問題</div><h2>營收成長 5%，是好消息嗎？</h2></header><div class="sbody"><div class="sfit"><div class="stats n2"><div class="stat c-total"><div class="v">+5%</div><div class="l">可口可樂 Q4 2025 有機營收成長</div></div><div class="stat c-vol"><div class="v">+1%</div><div class="l">同一季的銷量（單位箱數）成長</div></div></div><p class="txt">同樣是成長，可能是<strong>賣得更多</strong>，也可能只是<strong>賣得更貴</strong>。這份簡報教你分辨。</p><figure class="quote"><blockquote lang="en">we grew organic revenues 5%. Unit case growth was 1%.</blockquote><figcaption>可口可樂財務長，2025 Q4 法說會 · <code>ko-q4-2025</code> <span class="ok">已逐字比對原文</span></figcaption></figure></div></div><footer><span class="src">Wiki 資料：<code>sources/ko-q4-2025</code></span><span class="pg">3 / 22</span></footer></section>
+<section class="slide" id="s04" data-n="4"><header><div class="kicker">三個基本詞</div><h2>三個詞，拆開看成長</h2></header><div class="sbody"><div class="sfit"><div class="cards n3"><div class="card c-vol"><h3>Volume｜銷量</h3><p>賣出去<strong>多少東西</strong>（幾箱、幾件），不管賣多少錢。</p></div><div class="card c-price"><h3>Price｜價格</h3><p><strong>同一個東西</strong>賣的價錢變了多少：漲價、降價、促銷深淺。</p></div><div class="card c-mix"><h3>Mix｜組合</h3><p>賣的<strong>結構</strong>變了：貴的賣得多還是便宜的？大包裝還是小包裝？哪個通路？</p></div></div><div class="callout">銷量是最誠實的需求訊號：漲價能讓營收變大，但顧客買的件數變少，代表需求其實在流失。</div></div></div><footer><span class="src">Wiki 資料：<code>concepts/volume</code> <code>concepts/price</code> <code>concepts/mix</code></span><span class="pg">4 / 22</span></footer></section>
+<section class="slide" id="s05" data-n="5"><header><div class="kicker">公式</div><h2>成長可以加起來：銷量 + 價格 + 組合</h2></header><div class="sbody"><div class="sfit"><div class="eqwrap"><div class="eq"><span class="chip c-vol"><span class="et">Volume</span></span><span class="op">+</span><span class="chip c-price"><span class="et">Price</span></span><span class="op">+</span><span class="chip c-mix"><span class="et">Mix</span></span><span class="op">=</span><span class="chip c-total"><span class="et">有機成長</span></span></div></div><p class="txt">再加上<strong>匯率</strong>與<strong>買賣公司</strong>的影響，才是帳面上的總營收成長。</p><div class="fiction"><span class="badge">虛構範例，非來源</span><p>假設某飲料公司：銷量 +2%、價格 +3%、組合 −1%，有機成長約 <strong>+4%</strong>。匯率讓營收少 2%，總營收約 <strong>+2%</strong>。</p></div><div class="callout">同樣是 +4%，可能是「賣得多」，也可能只是「賣得貴」，健康程度不同。</div></div></div><footer><span class="src">Wiki 資料：<code>concepts/organic-growth</code></span><span class="pg">5 / 22</span></footer></section>
+<section class="slide" id="s06" data-n="6"><header><div class="kicker">公式成立嗎？</div><h2>真實數字也能加起來</h2></header><div class="sbody"><div class="sfit"><div class="eqwrap"><div class="eqlabel">KO｜2025 全年｜10-K</div><div class="eq"><span class="chip c-vol"><span class="et">銷量</span><span class="ev">+1</span></span><span class="op">+</span><span class="chip c-price"><span class="et">price/mix</span><span class="ev">+4</span></span><span class="op">+</span><span class="chip c-neutral"><span class="et">匯率</span><span class="ev">−2</span></span><span class="op">+</span><span class="chip c-neutral"><span class="et">併購出售</span><span class="ev">−1</span></span><span class="op">=</span><span class="chip c-total"><span class="et">營收</span><span class="ev">+2</span></span></div></div><div class="eqwrap"><div class="eqlabel">KHC｜2025 全年｜10-K</div><div class="eq"><span class="chip c-price"><span class="et">價格</span><span class="ev">+0.7</span></span><span class="op">+</span><span class="chip c-vol"><span class="et">volume/mix</span><span class="ev">−4.1</span></span><span class="op">=</span><span class="chip c-total"><span class="et">有機淨銷售</span><span class="ev">−3.4</span></span></div></div><div class="eqwrap"><div class="eqlabel">PG｜FY2026 Q2｜法說會</div><div class="eq"><span class="chip c-vol"><span class="et">銷量</span><span class="ev">−1</span></span><span class="op">+</span><span class="chip c-price"><span class="et">價格</span><span class="ev">+1</span></span><span class="op">+</span><span class="chip c-mix"><span class="et">組合</span><span class="ev">持平</span></span><span class="op">=</span><span class="chip c-total"><span class="et">有機銷售</span><span class="ev">持平</span></span></div></div><p class="txt">三家公司的拆法不同（這是後面的陷阱），但都符合「各項加起來等於整體」。</p></div></div><footer><span class="src">Wiki 資料：<code>concepts/organic-growth</code> <code>sources/ko-10k-fy2025</code> <code>sources/khc-10k-fy2025</code> <code>sources/pg-q2-fy2026</code></span><span class="pg">6 / 22</span></footer></section>
+<section class="slide" id="s07" data-n="7"><header><div class="kicker">名詞</div><h2>「有機成長」就是只看本業</h2></header><div class="sbody"><div class="sfit"><div class="cards n2"><div class="card c-neutral"><h3>拿掉的干擾 ①</h3><p><strong>匯率</strong>：美元強弱讓海外營收換算後變大或變小。</p></div><div class="card c-neutral"><h3>拿掉的干擾 ②</h3><p><strong>買賣公司</strong>：買進別人的營收、賣掉部門而少掉的營收。</p></div></div><figure class="quote"><blockquote lang="en">Organic sales, which exclude the impact of acquisitions and divestitures and foreign exchange, increased 2%.</blockquote><figcaption>寶僑 10-K（FY2025 有機銷售 +2%） · <code>pg-10k-fy2025</code> <span class="ok">已逐字比對原文</span></figcaption></figure><p class="txt">法說會上說的「成長」，多半就是有機成長：它最能反映管理層能控制的部分。</p></div></div><footer><span class="src">Wiki 資料：<code>concepts/organic-growth</code> <code>sources/pg-10k-fy2025</code></span><span class="pg">7 / 22</span></footer></section>
+<section class="slide" id="s08" data-n="8"><header><div class="kicker">案例 1｜可口可樂</div><h2>價格 4、組合 −3，price/mix 只剩 1</h2></header><div class="sbody"><div class="sfit"><div class="split"><div class="col"><div class="wfwrap"><div class="wft">KO 2025 Q4：price/mix 怎麼來</div><svg class="wf" viewBox="0 0 560 330" role="img" aria-label="KO 2025 Q4：price/mix 怎麼來"><line x1="24" x2="536" y1="260.0" y2="260.0" class="axis"/><rect x="59.8" y="77.9" width="99.0" height="182.1" rx="3" style="fill:var(--price)"/><text x="109.3" y="67.9" class="wv" text-anchor="middle">+4</text><text x="109.3" y="290.0" class="wl" text-anchor="middle">漲價</text><rect x="230.5" y="77.9" width="99.0" height="136.6" rx="3" style="fill:var(--mix)"/><text x="280.0" y="236.5" class="wv" text-anchor="middle">−3</text><text x="280.0" y="290.0" class="wl" text-anchor="middle">不利的組合</text><line x1="158.8" x2="230.5" y1="77.9" y2="77.9" class="conn"/><rect x="401.2" y="214.5" width="99.0" height="45.5" rx="3" style="fill:var(--accent)"/><text x="450.7" y="204.5" class="wv" text-anchor="middle">+1</text><text x="450.7" y="290.0" class="wl" text-anchor="middle">price/mix</text><line x1="329.5" x2="401.2" y1="214.5" y2="214.5" class="conn"/></svg></div></div><div class="col"><p class="txt">CEO 的簡化看法：把組合的單季波動拿掉，Q4 就是<strong>底層價格 4 + 銷量 1 = 5%</strong> 的營收成長。</p><figure class="quote"><blockquote lang="en">If you take that, what you see is 4% underlying price and 1% volume. So you see the fourth quarter in simple terms as a 5% revenue growth quarter</blockquote><figcaption>可口可樂 CEO · <code>ko-q4-2025</code> <span class="ok">已逐字比對原文</span></figcaption></figure><div class="callout">他的建議是看<strong>四個季度</strong>，不要只看一季。這是 KO 管理層的說法，不是通用規則。</div></div></div></div></div><footer><span class="src">Wiki 資料：<code>concepts/mix</code> <code>concepts/timing-and-base-effects</code> <code>sources/ko-q4-2025</code></span><span class="pg">8 / 22</span></footer></section>
+<section class="slide" id="s09" data-n="9"><header><div class="kicker">案例 1 的延伸</div><h2>mix 變負，不一定是壞事</h2></header><div class="sbody"><div class="sfit"><div class="split"><div class="col"><p class="txt"><strong>mix 包含什麼？</strong>（可口可樂 10-K 的定義）</p><ul class="bl"><li>品類、產品、包裝的組合</li><li>通路與地區的組合</li><li>再加上公司自己的訂價行動（所以才叫 price/mix）</li></ul><figure class="quote"><blockquote lang="en">the mix of categories, products and packages sold; and the mix of channels and geographic territories where the sales occurred</blockquote><figcaption>可口可樂 10-K · <code>ko-10k-fy2025</code> <span class="ok">已逐字比對原文</span></figcaption></figure></div><div class="col"><p class="txt"><strong>金百利克拉克的例子</strong></p><div class="flow"><div class="fnode">顧客在 club 通路改買大包裝</div><div class="farrow" aria-hidden="true">↓</div><div class="fnode">銷量增加</div><div class="farrow" aria-hidden="true">↓</div><div class="fnode">平均單價下降，價格那一欄被拖累</div></div><figure class="quote"><blockquote lang="en">they're buying larger pack sizes at a lower price per unit. So you see more volume, but a little bit of a drag on pricing</blockquote><figcaption>金百利克拉克管理層 · <code>kmb-q4-2025</code> <span class="ok">已逐字比對原文</span></figcaption></figure></div></div></div></div><footer><span class="src">Wiki 資料：<code>concepts/mix</code> <code>concepts/price</code> <code>sources/ko-10k-fy2025</code> <code>sources/kmb-q4-2025</code></span><span class="pg">9 / 22</span></footer></section>
+<section class="slide" id="s10" data-n="10"><header><div class="kicker">關鍵觀念</div><h2>price/mix 不是量出來的，是倒推出來的</h2></header><div class="sbody"><div class="sfit"><div class="eqwrap"><div class="eq"><span class="chip c-price"><span class="et">price/mix</span></span><span class="op">=</span><span class="chip c-total"><span class="et">營收總變動</span></span><span class="op">−</span><span class="chip c-vol"><span class="et">銷量</span></span><span class="op">−</span><span class="chip c-neutral"><span class="et">匯率</span></span><span class="op">−</span><span class="chip c-neutral"><span class="et">併購出售</span></span></div></div><div class="eqwrap"><div class="eqlabel">代回 KO 2025 全年</div><div class="eq"><span class="chip c-total"><span class="et">營收</span><span class="ev">+2</span></span><span class="op">−</span><span class="chip c-vol"><span class="et">銷量</span><span class="ev">+1</span></span><span class="op">−</span><span class="chip c-neutral"><span class="et">匯率</span><span class="ev">−2</span></span><span class="op">−</span><span class="chip c-neutral"><span class="et">併購出售</span><span class="ev">−1</span></span><span class="op">=</span><span class="chip c-price"><span class="et">price/mix</span><span class="ev">+4</span></span></div></div><figure class="quote"><blockquote lang="en">The impact of price/mix is calculated by subtracting the change in net operating revenues resulting from volume increases or decreases, fluctuations in foreign currency exchange rates, and acquisitions and divestitures from the total change in net operating revenues.</blockquote><figcaption>可口可樂 10-K · <code>ko-10k-fy2025</code> <span class="ok">已逐字比對原文</span></figcaption></figure><div class="callout">所以 price/mix 是「剩下的」：價格漲跌、產品、包裝、通路、地區的影響都混在裡面。</div></div></div><footer><span class="src">Wiki 資料：<code>concepts/mix</code> <code>sources/ko-10k-fy2025</code></span><span class="pg">10 / 22</span></footer></section>
+<section class="slide" id="s11" data-n="11"><header><div class="kicker">案例 2｜寶僑</div><h2>銷量 −3，但有 2 點是「去年太好」</h2></header><div class="sbody"><div class="sfit"><div class="split"><div class="col"><div class="stackbar"><div class="sbt">寶僑北美銷量變化（FY2026 Q2）</div><div class="sbl">銷量 −3 點</div><div class="sbbar"><div class="seg hatch" style="width:66.7%"><span>基期因素 約 2 點</span></div><div class="seg rest" style="width:33.3%"><span>其他</span></div></div></div><p class="txt">北美有機銷售 <strong>−2%</strong>。銷量 <strong>−3 點</strong>，其中約 <strong>2 點</strong>來自基期。</p></div><div class="col"><p class="txt"><strong>基期</strong>＝拿來比較的去年同期。去年同期大家囤貨，今年就顯得弱。</p><figure class="quote"><blockquote lang="en">the base period included trade and consumer pantry loading, driven by port strikes and hurricanes in early October</blockquote><figcaption>寶僑財務長 · <code>pg-q2-fy2026</code> <span class="ok">已逐字比對原文</span></figcaption></figure><div class="callout">管理層事前就說這會是全年最弱的一季；Family Care 下降約 10%，主因也是基期。要看下一季是否真的回升。</div></div></div></div></div><footer><span class="src">Wiki 資料：<code>concepts/timing-and-base-effects</code> <code>sources/pg-q2-fy2026</code></span><span class="pg">11 / 22</span></footer></section>
+<section class="slide" id="s12" data-n="12"><header><div class="kicker">陷阱 1</div><h2>各家報法不同：mix 跟誰綁在一起？</h2></header><div class="sbody"><div class="sfit"><div class="tblwrap"><table><thead><tr><th>公司（10-K）</th><th>怎麼拆成長</th><th>mix 跟誰綁在一起</th></tr></thead><tbody><tr><td>KO</td><td>銷量、price/mix、匯率、併購出售</td><td><strong>價格</strong>（Price/Mix）</td></tr><tr><td>KHC</td><td>Price、Volume/Mix</td><td><strong>銷量</strong>（Volume/Mix）</td></tr><tr><td>PG</td><td>volume、匯率、price、mix、other</td><td><strong>單獨一欄</strong></td></tr><tr><td>KMB</td><td>敘述「銷量」與「較低的價格與組合」</td><td>敘述中與價格並列</td></tr></tbody></table></div><div class="callout">KO 全年 price/mix 是 <strong>+4%</strong>（含組合）；KHC 全年價格是 <strong>+0.7</strong> 個百分點（不含組合）。兩個數字<strong>不能直接比大小</strong>。</div><p class="txt"><strong>看到 mix，先問：它跟誰綁在一起？</strong></p></div></div><footer><span class="src">Wiki 資料：<code>concepts/reporting-conventions</code> <code>sources/ko-10k-fy2025</code> <code>sources/khc-10k-fy2025</code> <code>sources/pg-10k-fy2025</code> <code>sources/kmb-10k-fy2025</code></span><span class="pg">12 / 22</span></footer></section>
+<section class="slide" id="s13" data-n="13"><header><div class="kicker">案例 3｜卡夫亨氏</div><h2>漲價救不了銷量</h2></header><div class="sbody"><div class="sfit"><div class="split"><div class="col"><div class="wfwrap"><div class="wft">KHC 2025 全年：有機淨銷售（百分點）</div><svg class="wf" viewBox="0 0 560 330" role="img" aria-label="KHC 2025 全年：有機淨銷售（百分點）"><line x1="24" x2="536" y1="103.8" y2="103.8" class="axis"/><rect x="59.8" y="75.7" width="99.0" height="28.1" rx="3" style="fill:var(--price)"/><text x="109.3" y="65.7" class="wv" text-anchor="middle">+0.7</text><text x="109.3" y="290.0" class="wl" text-anchor="middle">價格</text><rect x="230.5" y="75.7" width="99.0" height="164.5" rx="3" style="fill:var(--vol)"/><text x="280.0" y="262.3" class="wv" text-anchor="middle">−4.1</text><text x="280.0" y="290.0" class="wl" text-anchor="middle">volume/mix</text><line x1="158.8" x2="230.5" y1="75.7" y2="75.7" class="conn"/><rect x="401.2" y="103.8" width="99.0" height="136.4" rx="3" style="fill:var(--accent)"/><text x="450.7" y="262.3" class="wv" text-anchor="middle">−3.4</text><text x="450.7" y="290.0" class="wl" text-anchor="middle">有機淨銷售</text><line x1="329.5" x2="401.2" y1="240.3" y2="240.3" class="conn"/></svg></div></div><div class="col"><p class="txt">漲價是為了<strong>抵銷成本</strong>，不代表需求強。</p><figure class="quote"><blockquote lang="en">Higher pricing was taken in certain categories to mitigate higher input costs, primarily in coffee.</blockquote><figcaption>卡夫亨氏 10-K · <code>khc-10k-fy2025</code> <span class="ok">已逐字比對原文</span></figcaption></figure><div class="callout">新任管理層的對策：增加約 600 million 美元的投資，約一半花在價格、產品、包裝；目標是「以銷量帶動」的成長。</div></div></div></div></div><footer><span class="src">Wiki 資料：<code>sources/khc-10k-fy2025</code> <code>sources/khc-q4-2025</code> <code>concepts/price</code> <code>concepts/value-and-affordability</code></span><span class="pg">13 / 22</span></footer></section>
+<section class="slide" id="s14" data-n="14"><header><div class="kicker">為什麼 price 與 mix 會動</div><h2>消費者更會比價，公司怎麼回應？</h2></header><div class="sbody"><div class="sfit"><div class="cards n4"><div class="card c-neutral"><h3>KMB</h3><p>用「好、更好、最好」價格階梯，每一階都有有競爭力的產品。</p></div><div class="card c-neutral"><h3>KO</h3><p>調整價格／包裝架構，聚焦「絕對價格帶」的入門款。</p></div><div class="card c-neutral"><h3>KHC</h3><p>把投資花在「對的開口價」、產品與包裝。</p></div><div class="card c-neutral"><h3>WMT</h3><p>用降價（rollbacks、EDLP）壓低食品價格，讓顧客有餘力買一般商品。</p></div></div><div class="callout">這些動作會<strong>同時改變 price 與 mix</strong>：公司可能主動讓價格或組合變差，來換取銷量。</div></div></div><footer><span class="src">Wiki 資料：<code>concepts/value-and-affordability</code> <code>sources/kmb-q4-2025</code> <code>sources/ko-q4-2025</code> <code>sources/khc-q4-2025</code> <code>sources/wmt-q4-fy2026</code></span><span class="pg">14 / 22</span></footer></section>
+<section class="slide" id="s15" data-n="15"><header><div class="kicker">陷阱 2</div><h2>零售商的 mix 是「事業組合」</h2></header><div class="sbody"><div class="sfit"><div class="stats n3"><div class="stat c-total"><div class="v">+4.9%</div><div class="l">WMT Q4 營收（固定匯率）</div></div><div class="stat c-price"><div class="v">+10.5%</div><div class="l">調整後營業利益</div></div><div class="stat c-mix"><div class="v">+37%</div><div class="l">全球廣告事業</div></div></div><p class="txt">賣商品的毛利很薄；<strong>廣告與會員費</strong>的毛利高很多。這類收入占比變高，獲利就會比營收長得快。廣告加會員費已占營業利益將近三分之一。</p><figure class="quote"><blockquote lang="en">we are improving eCommerce economics with increased contributions from business mix, most notably in higher-margin areas like advertising and membership fees.</blockquote><figcaption>沃爾瑪財務長 · <code>wmt-q4-fy2026</code> <span class="ok">已逐字比對原文</span></figcaption></figure><div class="callout">沃爾瑪的 mix 是「錢從哪幾種事業賺進來」；品牌商的 mix 是「賣哪種產品、包裝、通路」。同一個字，不同意思。</div></div></div><footer><span class="src">Wiki 資料：<code>concepts/retail-business-mix</code> <code>sources/wmt-q4-fy2026</code></span><span class="pg">15 / 22</span></footer></section>
+<section class="slide" id="s16" data-n="16"><header><div class="kicker">成長以外</div><h2>成本壓力：關稅、原物料，以及生產力</h2></header><div class="sbody"><div class="sfit"><div class="cards n4"><div class="card c-neutral"><h3>寶僑｜關稅</h3><p>預期增加約 500 million 美元的稅前成本。</p></div><div class="card c-neutral"><h3>寶僑｜生產力</h3><p>改善 270 個基點（= 2.7 個百分點），同時持續投資創新。</p></div><div class="card c-neutral"><h3>可口可樂｜成本</h3><p>管理層認為整體成本籃子的影響可控。</p></div><div class="card c-neutral"><h3>卡夫亨氏｜原物料</h3><p>部分品類漲價，是為了抵銷咖啡等投入成本。</p></div></div><div class="callout">成本上升有兩條路：<strong>漲價</strong>（影響 price）或<strong>自己吸收</strong>（壓縮利潤）。生產力改善省下的錢，會拿去投資創新，替未來的銷量鋪路。</div></div></div><footer><span class="src">Wiki 資料：<code>concepts/cost-and-productivity</code> <code>sources/pg-q2-fy2026</code> <code>sources/khc-10k-fy2025</code> <code>sources/ko-q4-2025</code></span><span class="pg">16 / 22</span></footer></section>
+<section class="slide" id="s17" data-n="17"><header><div class="kicker">往前看</div><h2>管理層指引：對下一年的預測區間</h2></header><div class="sbody"><div class="sfit"><div class="tblwrap"><table><thead><tr><th>公司</th><th>指引</th><th>口徑</th></tr></thead><tbody><tr><td>KO（2026）</td><td>有機營收 +4% 到 5%，期望價與量約 50/50</td><td>有機營收</td></tr><tr><td>PG（FY2026）</td><td>有機銷售持平到 +4%；市場成長約 2%</td><td>有機銷售</td></tr><tr><td>WMT（FY2027）</td><td>銷售 +3.5% 到 4.5%；營業利益 +6% 到 8%</td><td>固定匯率</td></tr><tr><td>KMB</td><td>展望隱含品類成長約 2%</td><td>品類成長</td></tr></tbody></table></div><div class="callout">指引是<strong>預期</strong>，不是結果。口徑不同（有機、固定匯率），數字也不能直接比大小。把公司的指引跟「市場成長」比，才看得出它預期跑贏還是跑輸。</div></div></div><footer><span class="src">Wiki 資料：<code>concepts/guidance</code> <code>sources/ko-q4-2025</code> <code>sources/pg-q2-fy2026</code> <code>sources/wmt-q4-fy2026</code> <code>sources/kmb-q4-2025</code></span><span class="pg">17 / 22</span></footer></section>
+<section class="slide" id="s18" data-n="18"><header><div class="kicker">整理</div><h2>三分鐘讀法：四個問題</h2></header><div class="sbody"><div class="sfit"><ol class="ol"><li><span class="ot"><strong>銷量有沒有成長？</strong> 它是最誠實的需求訊號。</span></li><li><span class="ot"><strong>Price 和 Mix 是誰綁誰？</strong> 先看這家公司的拆法，再比較。</span></li><li><span class="ot"><strong>有沒有單季雜訊？</strong> 基期、出貨時間、多一天少一天。</span></li><li><span class="ot"><strong>指引比市場成長高還是低？</strong> 看管理層預期跑贏還是跑輸。</span></li></ol></div></div><footer><span class="src">本頁是概念整理，沒有引用數字</span><span class="pg">18 / 22</span></footer></section>
+<section class="slide" id="s19" data-n="19" data-fit="0"><header><div class="kicker">小測驗</div><h2>換你判斷</h2></header><div class="sbody"><div class="sfit"><div class="quiz"><div class="quizq" id="qq0"><div class="qt">某公司 Q4 營收成長 5%、銷量成長 1%。你最想追問什麼？</div><div class="opts"><button type="button" class="opt" data-q="0" data-i="0" data-ans="0">為什麼成長這麼快？</button><button type="button" class="opt" data-q="0" data-i="1" data-ans="1">另外 4 點是價格還是組合？</button><button type="button" class="opt" data-q="0" data-i="2" data-ans="0">股價會不會漲？</button></div><div class="why" hidden>5% 扣掉銷量 1%，剩下的要拆成價格與組合。可口可樂 Q4 就是價格約 4 點、組合 −3 點。</div></div><div class="quizq" id="qq1"><div class="qt">KO 全年 price/mix 是 +4%，KHC 全年價格是 +0.7 個百分點。誰漲價漲得比較兇？</div><div class="opts"><button type="button" class="opt" data-q="1" data-i="0" data-ans="0">KO</button><button type="button" class="opt" data-q="1" data-i="1" data-ans="0">KHC</button><button type="button" class="opt" data-q="1" data-i="2" data-ans="1">不能直接比</button></div><div class="why" hidden>KO 的 +4% 包含組合；KHC 的 +0.7 只有價格，組合在 volume/mix 裡。口徑不同。</div></div><div class="quizq" id="qq2"><div class="qt">寶僑北美銷量 −3 點，其中約 2 點來自基期。這代表什麼？</div><div class="opts"><button type="button" class="opt" data-q="2" data-i="0" data-ans="0">需求一定變差了</button><button type="button" class="opt" data-q="2" data-i="1" data-ans="1">去年同期囤貨讓基期偏高</button><button type="button" class="opt" data-q="2" data-i="2" data-ans="0">寶僑降價了</button></div><div class="why" hidden>去年同期有港口罷工與颶風造成的囤貨。要看下一季是否回升，才能判斷需求。</div></div></div></div></div><footer><span class="src">Wiki 資料：<code>concepts/mix</code> <code>concepts/reporting-conventions</code> <code>concepts/timing-and-base-effects</code> <code>sources/ko-q4-2025</code></span><span class="pg">19 / 22</span></footer></section>
+<section class="slide" id="s20" data-n="20" data-fit="0"><header><div class="kicker">附錄 A｜這份簡報怎麼做出來的</div><h2>取得 → 討論 → 生成 → 檢查 → 簡報</h2></header><div class="sbody"><div class="sfit">
+<div class="method">
+<svg viewBox="0 0 1120 430" role="img" aria-label="從取得資料到發佈簡報的流程圖，含兩個檢查迴圈與一條 Wiki 缺口回流線">
+<defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--ink)"/></marker>
+<marker id="ar2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--neg)"/></marker></defs>
+<g class="nd w"><rect x="0" y="80" width="250" height="84" rx="10"/><text x="125" y="112" class="nt">1 取得資料</text><text x="125" y="142" class="ns">data_update.py（HW3 重用）</text></g>
+<g class="nd a"><rect x="290" y="80" width="250" height="84" rx="10"/><text x="415" y="112" class="nt">2 先討論</text><text x="415" y="142" class="ns">討論稿 D01、D02</text></g>
+<g class="nd a"><rect x="580" y="80" width="250" height="84" rx="10"/><text x="705" y="112" class="nt">3 後生成</text><text x="705" y="142" class="ns">Wiki 頁面＋英文原文引文</text></g>
+<g class="nd c"><rect x="870" y="80" width="250" height="84" rx="10"/><text x="995" y="112" class="nt">4 檢查 Wiki</text><text x="995" y="142" class="ns">wiki_lint.py</text></g>
+<g class="nd w"><rect x="870" y="270" width="250" height="84" rx="10"/><text x="995" y="302" class="nt">5 查詢 Wiki</text><text x="995" y="332" class="ns">wiki_query.py</text></g>
+<g class="nd a"><rect x="580" y="270" width="250" height="84" rx="10"/><text x="705" y="302" class="nt">6 整理成簡報</text><text x="705" y="332" class="ns">slides_spec → HTML</text></g>
+<g class="nd c"><rect x="290" y="270" width="250" height="84" rx="10"/><text x="415" y="302" class="nt">7 檢查簡報</text><text x="415" y="332" class="ns">數字溯源・引文・渲染</text></g>
+<g class="nd w"><rect x="0" y="270" width="250" height="84" rx="10"/><text x="125" y="302" class="nt">8 發佈</text><text x="125" y="332" class="ns">HTML 簡報＋Wiki</text></g>
+<g class="ln"><path d="M250 122H288" marker-end="url(#ar)"/><path d="M540 122H578" marker-end="url(#ar)"/><path d="M830 122H868" marker-end="url(#ar)"/>
+<path d="M995 164V268" marker-end="url(#ar)"/><path d="M868 312H832" marker-end="url(#ar)"/><path d="M578 312H542" marker-end="url(#ar)"/><path d="M288 312H252" marker-end="url(#ar)"/></g>
+<g class="ln bad"><path d="M995 78C995 24 705 24 705 78" marker-end="url(#ar2)"/><text x="850" y="22" class="lb" text-anchor="middle">不通過：修正後重跑</text>
+<path d="M415 356C415 410 705 410 705 358" marker-end="url(#ar2)" transform="translate(0 0)"/><text x="560" y="424" class="lb" text-anchor="middle">不通過：修正後重跑</text>
+<path d="M930 268C930 210 415 220 415 166" stroke-dasharray="6 5" marker-end="url(#ar2)"/><text x="700" y="224" class="lb" text-anchor="middle">Wiki 缺口：回去補 ingest</text></g>
+<g class="lg"><rect x="0" y="388" width="16" height="16" rx="3" class="lw"/><text x="24" y="401" class="ls">程式執行</text><rect x="110" y="388" width="16" height="16" rx="3" class="la"/><text x="134" y="401" class="ls">AI 撰寫</text><rect x="214" y="388" width="16" height="16" rx="3" class="lc"/><text x="238" y="401" class="ls">程式檢查</text></g>
+</svg></div>
+</div></div><footer><span class="src">由程式依 Wiki 自動產生</span><span class="pg">20 / 22</span></footer></section>
+<section class="slide" id="s21" data-n="21" data-fit="0"><header><div class="kicker">附錄 B｜簡報 ↔ Wiki 對應</div><h2>每一頁的資料從哪裡來</h2></header><div class="sbody"><div class="sfit"><div class="mapping"><div class="mcol"><div class="mrow"><span class="mn">2</span><span class="mt">學完這份簡報，你可以…</span><span class="mp"><span class="dim">概念整理</span></span></div><div class="mrow"><span class="mn">3</span><span class="mt">營收成長 5%，是好消息嗎？</span><span class="mp"><span class="dim">概念整理</span> <span class="co">· KO</span></span></div><div class="mrow"><span class="mn">4</span><span class="mt">三個詞，拆開看成長</span><span class="mp"><code>volume</code> <code>price</code> <code>mix</code> <span class="co">· KHC／KMB／KO／PG／WMT</span></span></div><div class="mrow"><span class="mn">5</span><span class="mt">成長可以加起來：銷量 + 價格 + 組合</span><span class="mp"><code>organic-growth</code> <span class="co">· KHC／KMB／KO／PG／WMT</span></span></div><div class="mrow"><span class="mn">6</span><span class="mt">真實數字也能加起來</span><span class="mp"><code>organic-growth</code> <span class="co">· KHC／KMB／KO／PG／WMT</span></span></div><div class="mrow"><span class="mn">7</span><span class="mt">「有機成長」就是只看本業</span><span class="mp"><code>organic-growth</code> <span class="co">· KHC／KMB／KO／PG／WMT</span></span></div></div><div class="mcol"><div class="mrow"><span class="mn">8</span><span class="mt">價格 4、組合 −3，price/mix 只剩 1</span><span class="mp"><code>mix</code> <code>timing-and-base-effects</code> <span class="co">· KHC／KMB／KO／PG／WMT</span></span></div><div class="mrow"><span class="mn">9</span><span class="mt">mix 變負，不一定是壞事</span><span class="mp"><code>mix</code> <code>price</code> <span class="co">· KHC／KMB／KO／PG／WMT</span></span></div><div class="mrow"><span class="mn">10</span><span class="mt">price/mix 不是量出來的，是倒推出來的</span><span class="mp"><code>mix</code> <span class="co">· KHC／KMB／KO／PG／WMT</span></span></div><div class="mrow"><span class="mn">11</span><span class="mt">銷量 −3，但有 2 點是「去年太好」</span><span class="mp"><code>timing-and-base-effects</code> <span class="co">· KO／PG</span></span></div><div class="mrow"><span class="mn">12</span><span class="mt">各家報法不同：mix 跟誰綁在一起？</span><span class="mp"><code>reporting-conventions</code> <span class="co">· KHC／KMB／KO／PG／WMT</span></span></div><div class="mrow"><span class="mn">13</span><span class="mt">漲價救不了銷量</span><span class="mp"><code>price</code> <code>value-and-affordability</code> <span class="co">· KHC／KMB／KO／PG／WMT</span></span></div></div><div class="mcol"><div class="mrow"><span class="mn">14</span><span class="mt">消費者更會比價，公司怎麼回應？</span><span class="mp"><code>value-and-affordability</code> <span class="co">· KHC／KMB／KO／PG／WMT</span></span></div><div class="mrow"><span class="mn">15</span><span class="mt">零售商的 mix 是「事業組合」</span><span class="mp"><code>retail-business-mix</code> <span class="co">· WMT</span></span></div><div class="mrow"><span class="mn">16</span><span class="mt">成本壓力：關稅、原物料，以及生產力</span><span class="mp"><code>cost-and-productivity</code> <span class="co">· KHC／KO／PG</span></span></div><div class="mrow"><span class="mn">17</span><span class="mt">管理層指引：對下一年的預測區間</span><span class="mp"><code>guidance</code> <span class="co">· KMB／KO／PG／WMT</span></span></div><div class="mrow"><span class="mn">18</span><span class="mt">三分鐘讀法：四個問題</span><span class="mp"><span class="dim">概念整理</span></span></div><div class="mrow"><span class="mn">19</span><span class="mt">換你判斷</span><span class="mp"><code>mix</code> <code>reporting-conventions</code> <code>timing-and-base-effects</code> <span class="co">· KHC／KMB／KO／PG／WMT</span></span></div></div></div><p class="note">灰色公司代號 = 該頁引用的 Wiki 頁面，其證據來自哪幾家公司的來源；完整來源清單見下一頁。</p></div></div><footer><span class="src">由程式依 Wiki 自動產生</span><span class="pg">21 / 22</span></footer></section>
+<section class="slide" id="s22" data-n="22" data-fit="0"><header><div class="kicker">附錄 C｜資料來源</div><h2>Wiki ingest 的 10 份來源</h2></header><div class="sbody"><div class="sfit"><div class="tblwrap"><table class="src"><thead><tr><th>來源 id</th><th>公司</th><th>期間</th><th>類型</th><th>ingest</th><th>引文數</th><th>HW3 原始檔</th></tr></thead><tbody><tr><td><code>khc-q4-2025</code></td><td>KHC</td><td>Q4_2025</td><td>法說會</td><td>批次 1</td><td class="num">21</td><td class="fn">KHC_Transcript_Q4_2025_MotleyFool.pdf</td></tr><tr><td><code>kmb-q4-2025</code></td><td>KMB</td><td>Q4_2025</td><td>法說會</td><td>批次 1</td><td class="num">26</td><td class="fn">KMB_Transcript_Q4_2025_MotleyFool.pdf</td></tr><tr><td><code>ko-q4-2025</code></td><td>KO</td><td>Q4_2025</td><td>法說會</td><td>批次 1</td><td class="num">42</td><td class="fn">KO_Transcript_Q4_2025_FactSet.pdf</td></tr><tr><td><code>pg-q2-fy2026</code></td><td>PG</td><td>Q2_FY2026</td><td>法說會</td><td>批次 1</td><td class="num">31</td><td class="fn">PG_Transcript_Q2_FY2026_MotleyFool.pdf</td></tr><tr><td><code>wmt-q4-fy2026</code></td><td>WMT</td><td>Q4_FY2026</td><td>法說會</td><td>批次 1</td><td class="num">28</td><td class="fn">WMT_Transcript_Q4_FY2026_FactSet.pdf</td></tr><tr><td><code>khc-10k-fy2025</code></td><td>KHC</td><td>FY2025</td><td>年報 10-K</td><td>批次 2</td><td class="num">16</td><td class="fn">KHC_10K_FY2025_SEC.pdf</td></tr><tr><td><code>kmb-10k-fy2025</code></td><td>KMB</td><td>FY2025</td><td>年報 10-K</td><td>批次 2</td><td class="num">8</td><td class="fn">KMB_10K_FY2025_SEC.pdf</td></tr><tr><td><code>ko-10k-fy2025</code></td><td>KO</td><td>FY2025</td><td>年報 10-K</td><td>批次 2</td><td class="num">14</td><td class="fn">KO_10K_FY2025_SEC.pdf</td></tr><tr><td><code>pg-10k-fy2025</code></td><td>PG</td><td>FY2025</td><td>年報 10-K</td><td>批次 2</td><td class="num">10</td><td class="fn">PG_10K_FY2025_SEC.pdf</td></tr><tr><td><code>wmt-10k-fy2026</code></td><td>WMT</td><td>FY2026</td><td>年報 10-K</td><td>批次 2</td><td class="num">5</td><td class="fn">WMT_10K_FY2026_SEC.pdf</td></tr></tbody></table></div><p class="note">HW3 的 20 份文件中，這個 Wiki 只 ingest 上面這幾份；沒有 ingest 的內容，簡報不講。</p></div></div><footer><span class="src">由程式依 Wiki 自動產生</span><span class="pg">22 / 22</span></footer></section>
+</div></div></div><div class="controls"><button id="prev" type="button" aria-label="上一頁">← 上一頁</button><div class="bar"><i></i></div><span class="cnt">1 / 22</span><button id="next" type="button" aria-label="下一頁">下一頁 →</button><span class="hint">鍵盤 ← → 換頁</span></div></div>
+<script>
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.slide')),n=slides.length,i=0;
+  var viewer=document.querySelector('.viewer'),wrap=document.querySelector('.stagewrap'),sizer=document.querySelector('.sizer'),stage=document.querySelector('.stage');
+  var bar=document.querySelector('.bar i'),cnt=document.querySelector('.cnt');
+  function reading(){return (document.documentElement.clientWidth||window.innerWidth)<820;}
+  function resetFit(f){f.style.transform='';f.style.width='';f.style.marginTop='';}
+  function fitSlide(s){
+    var body=s.querySelector('.sbody'),f=s.querySelector('.sfit');
+    if(!f)return;resetFit(f);
+    if(reading()||s.dataset.fit==='0')return;
+    var avail=body.clientHeight,nat=f.offsetHeight;
+    if(!avail||!nat)return;
+    var z=Math.min(1.35,avail*0.96/nat);
+    if(z<1.04)return;
+    for(var k=0;k<12;k++){
+      f.style.width=(100/z)+'%';
+      if(f.offsetHeight*z<=avail*0.97)break;
+      z-=0.03;
+      if(z<1.02){resetFit(f);return;}
+    }
+    f.style.transformOrigin='0 0';f.style.transform='scale('+z+')';
+    f.style.marginTop=Math.max(0,(avail-f.offsetHeight*z)*0.28)+'px';
+  }
+  function fit(){
+    var r=reading();viewer.classList.toggle('reading',r);
+    if(r){sizer.style.width='';sizer.style.height='';stage.style.transform='';slides.forEach(function(s){var f=s.querySelector('.sfit');if(f)resetFit(f);});return;}
+    var w=wrap.clientWidth,h=wrap.clientHeight,s=Math.min(w/1280,h/720);
+    sizer.style.width=(1280*s)+'px';sizer.style.height=(720*s)+'px';stage.style.transform='scale('+s+')';
+    fitSlide(slides[i]);
+  }
+  function show(k,fromHash){
+    i=Math.max(0,Math.min(n-1,k));
+    slides.forEach(function(s,j){s.classList.toggle('active',j===i);});
+    if(!reading())fitSlide(slides[i]);
+    bar.style.width=((i+1)/n*100)+'%';cnt.textContent=(i+1)+' / '+n;
+    if(!fromHash){try{history.replaceState(null,'','#s'+(i+1));}catch(e){}}
+  }
+  function go(d){show(i+d);}
+  document.getElementById('prev').addEventListener('click',function(){go(-1);});
+  document.getElementById('next').addEventListener('click',function(){go(1);});
+  document.addEventListener('keydown',function(e){
+    if(reading()||e.target.tagName==='BUTTON'&&(e.key===' '||e.key==='Enter'))return;
+    if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();go(1);}
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(-1);}
+    else if(e.key==='Home'){show(0);}else if(e.key==='End'){show(n-1);}
+  });
+  var tx=null;
+  stage.addEventListener('touchstart',function(e){tx=e.touches[0].clientX;},{passive:true});
+  stage.addEventListener('touchend',function(e){if(tx===null||reading())return;var d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>50)go(d<0?1:-1);tx=null;});
+  [].forEach.call(document.querySelectorAll('.opt'),function(b){
+    b.addEventListener('click',function(){
+      var q=b.closest('.quizq');[].forEach.call(q.querySelectorAll('.opt'),function(o){o.classList.remove('right','wrong');});
+      b.classList.add(b.dataset.ans==='1'?'right':'wrong');
+      if(b.dataset.ans!=='1'){var c=q.querySelector('.opt[data-ans="1"]');if(c)c.classList.add('right');}
+      q.querySelector('.why').hidden=false;
+    });
+  });
+  window.addEventListener('resize',fit);window.addEventListener('load',fit);window.addEventListener('orientationchange',fit);
+  if(window.ResizeObserver){try{new ResizeObserver(function(){fit();}).observe(wrap);}catch(e){}}
+  if(window.requestAnimationFrame)requestAnimationFrame(function(){fit();});
+  window.__deck={go:go,show:show,count:n,fit:fit};
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){if(!reading())fitSlide(slides[i]);});
+  var m=/^#s(\d+)$/.exec(location.hash);fit();show(m?parseInt(m[1],10)-1:0,true);
+  window.addEventListener('hashchange',function(){var m=/^#s(\d+)$/.exec(location.hash);if(m)show(parseInt(m[1],10)-1,true);});
+})();
+</script>
