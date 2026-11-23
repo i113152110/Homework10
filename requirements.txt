@@ -1,0 +1,13 @@
+# Python >= 3.10 required (developed with 3.11.9; recommended for submission: Python 3.11.x)
+
+pypdf==4.2.0
+python-dotenv==1.0.1
+chromadb==0.5.3
+
+# Recommended local embedding stack
+sentence-transformers==2.7.0
+transformers==4.41.2
+torch==2.3.1
+
+# LiteLLM is optional at runtime, but included here for the full Stage 1 path
+litellm==1.51.0
